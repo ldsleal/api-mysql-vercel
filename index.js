@@ -14,7 +14,7 @@ app.listen(port, () => {
 app.get('/pessoa', async (req, res) => {
   try {
     //const client = pool.getConnection();
-    const [rows,field] = pool.query('SELECT * FROM pessoa');
+    const [rows,field] = await pool.query('SELECT * FROM pessoa');
     res.json({
       data:rows
     });
