@@ -10,9 +10,9 @@ const pool = mysql.createPool({
  queueLimit:0
 })
 
-pool.connect((err) => {
-    if (err) throw err
-    console.log("Connect to PostgreSQL successfully!")
+pool.getConnection((err,conn) => {
+  if(err) console.log(err)
+  console.log("Connected successfully")
 })
 
-module.exports = pool
+module.exports = pool.promise()
