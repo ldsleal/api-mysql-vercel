@@ -15,7 +15,7 @@ app.listen(port, () => {
 app.get('/pessoa', async (req, res) => {
   try {
     const client = pool.getConnection();
-    const result = await pool.query('SELECT * FROM pessoa');
+    const result = pool.query('SELECT * FROM pessoa');
     res.json(result.rows);
     client.release();
   } catch (err) {
@@ -26,8 +26,8 @@ app.get('/pessoa', async (req, res) => {
 
 app.get('/batimentos_cardiacos', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM batimentos_cardiacos');
+    const client = pool.getConnection();
+    const result = pool.query('SELECT * FROM batimentos_cardiacos');
     res.json(result.rows);
     client.release();
   } catch (err) {
