@@ -10,15 +10,15 @@ const pool = require ("./database")
 app.listen(port, () => {
     console.log(`Servidor rodando n porta ${port}`);
   });
-
-
   // Exemplo de rota para consultar dados
 app.get('/pessoa', async (req, res) => {
   try {
-    const client = pool.getConnection();
-    const result = await pool.query('SELECT * FROM pessoa');
-    res.json(result.rows);
-   // client.release();
+    //const client = pool.getConnection();
+    const result = pool.query('SELECT * FROM pessoa');
+    res.json({
+      data:result.rows
+    });
+   //client.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
