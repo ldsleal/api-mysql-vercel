@@ -1,17 +1,10 @@
 require('dotenv').config();
-const { Pool } = require('pg');
+const mysql= require('mysql2');
 
 const express = require('express');
 const app = express();
 app.use(express.json());
-const port = 3000;
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+const port = 3308;
 
 app.listen(port, () => {
     console.log(`Servidor rodando n porta ${port}`);

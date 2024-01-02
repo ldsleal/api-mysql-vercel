@@ -1,7 +1,13 @@
-const { Pool } = require('pg')
+const mysql = require('mysql2')
  
-const pool = new Pool({
-  connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+const pool = mysql.createPool({
+ host: process.env.DB_HOST,
+ user: process.env.DB_USERNAME,
+ password: process.env.DB_PASSWORD,
+ database: process.env.DB_DBNAME,
+ waitForConnections:true,
+ connectionLimit:5000,
+ queueLimit:0
 })
 
 pool.connect((err) => {
