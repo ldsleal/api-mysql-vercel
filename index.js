@@ -15,7 +15,7 @@ app.listen(port, () => {
   // Exemplo de rota para consultar dados
 app.get('/pessoa', async (req, res) => {
   try {
-    const client = await pool.connect();
+    const client = pool.getConnection();
     const result = await client.query('SELECT * FROM pessoa');
     res.json(result.rows);
     client.release();
