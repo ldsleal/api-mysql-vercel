@@ -16,7 +16,7 @@ app.get('/pessoa', async (req, res) => {
     //const client = pool.getConnection();
     const result = pool.query('SELECT * FROM pessoa');
     res.json(result.rows);
-   //client.release();
+    result.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
