@@ -4,7 +4,7 @@ const mysql = require('mysql2')
 const express = require('express');
 const app = express();
 app.use(express.json());
-const port = 3308;
+const port = 3002;
 
 const pool = require ("./database")
 app.listen(port, () => {
