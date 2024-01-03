@@ -10,17 +10,18 @@ const pool = require ("./database")
 app.listen(port, () => {
     console.log(`Servidor rodando n porta ${port}`);
   });
+
   // Exemplo de rota para consultar dados
 app.get('/pessoa', async (req, res) => {
-  try {
-    //const client = pool.getConnection();
-    const result = pool.query('SELECT * FROM pessoa');
-    res.json(result.rows);
-    result.release();
-  } catch (err) {
-    console.error(err);
-    res.send("Erro " + err);
-  }
+    try {
+        const connection = await pool.getConnection();
+        const result = await connection.query('SELECT * FROM pessoa');
+        res.json(result.rows); // result[0] contém as linhas retornadas
+        connection.release(); // Liberando a conexão de volta para o pool
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erro " + err);
+    }
 });
 
 app.get('/batimentos_cardiacos', async (req, res) => {
