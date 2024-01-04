@@ -16,7 +16,7 @@ app.get('/pessoa', async (req, res) => {
     try {
         const connection = await pool.getConnection();
         const result = await pool.query('SELECT * FROM pessoa');
-        res.json(result.rows); // result[0] contém as linhas retornadas
+        res.json(result[0]); // result[0] contém as linhas retornadas
         connection.release(); // Liberando a conexão de volta para o pool
     } catch (err) {
         console.error(err);
