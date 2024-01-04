@@ -28,7 +28,7 @@ app.get('/batimentos_cardiacos', async (req, res) => {
   try {
     const client = pool.getConnection();
     const result = pool.query('SELECT * FROM batimentos_cardiacos');
-    res.json(result.rows);
+    res.json(result[0]);
     client.release();
   } catch (err) {
     console.error(err);
@@ -40,7 +40,7 @@ app.get('/passos', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM passos');
-    res.json(result.rows);
+    res.json(result[0]);
     client.release();
   } catch (err) {
     console.error(err);
@@ -52,7 +52,7 @@ app.get('/distancia', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM distancia');
-    res.json(result.rows);
+    res.json(result[0]);
     client.release();
   } catch (err) {
     console.error(err);
@@ -64,7 +64,7 @@ app.get('/respiracao', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM respiracao');
-    res.json(result.rows);
+    res.json(result[0]);
     client.release();
   } catch (err) {
     console.error(err);
@@ -76,7 +76,7 @@ app.get('/oxigenacao', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM oxigenacao');
-    res.json(result.rows);
+    res.json(result[0]);
     client.release();
   } catch (err) {
     console.error(err);
@@ -88,7 +88,7 @@ app.get('/peso', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM peso');
-    res.json(result.rows);
+    res.json(result[0]);
     client.release();
   } catch (err) {
     console.error(err);
@@ -100,7 +100,7 @@ app.get('/sono', async (req, res) => {
   try {
     const client = await pool.connect();
     const result = await client.query('SELECT * FROM sono');
-    res.json(result.rows);
+    res.json(result[0]);
     client.release();
   } catch (err) {
     console.error(err);
