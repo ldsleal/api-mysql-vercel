@@ -26,10 +26,10 @@ app.get('/pessoa', async (req, res) => {
 
 app.get('/batimentos_cardiacos', async (req, res) => {
   try {
-    const client = pool.getConnection();
-    const result = pool.query('SELECT * FROM batimentos_cardiacos');
+    const connection =  await pool.getConnection();
+    const result = await pool.query('SELECT * FROM batimentos_cardiacos');
     res.json(result[0]);
-    client.release();
+    connection.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
@@ -38,10 +38,10 @@ app.get('/batimentos_cardiacos', async (req, res) => {
 
 app.get('/passos', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM passos');
+    const connection =  await pool.getConnection();
+    const result = await pool.query('SELECT * FROM passos');
     res.json(result[0]);
-    client.release();
+    connection.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
@@ -50,10 +50,10 @@ app.get('/passos', async (req, res) => {
 
 app.get('/distancia', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM distancia');
+    const connection =  await pool.getConnection();
+    const result = await pool.query('SELECT * FROM distancia');
     res.json(result[0]);
-    client.release();
+    connection.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
@@ -62,10 +62,10 @@ app.get('/distancia', async (req, res) => {
 
 app.get('/respiracao', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM respiracao');
+    const connection =  await pool.getConnection();
+    const result = await pool.query('SELECT * FROM respiracao');
     res.json(result[0]);
-    client.release();
+    connection.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
@@ -74,10 +74,10 @@ app.get('/respiracao', async (req, res) => {
 
 app.get('/oxigenacao', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM oxigenacao');
+    const connection =  await pool.getConnection();
+    const result = await pool.query('SELECT * FROM oxigenacao');
     res.json(result[0]);
-    client.release();
+    connection.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
@@ -86,10 +86,10 @@ app.get('/oxigenacao', async (req, res) => {
 
 app.get('/peso', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM peso');
+    const connection =  await pool.getConnection();
+    const result = await pool.query('SELECT * FROM peso');
     res.json(result[0]);
-    client.release();
+    connection.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
@@ -98,10 +98,10 @@ app.get('/peso', async (req, res) => {
 
 app.get('/sono', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const result = await client.query('SELECT * FROM sono');
+    const connection =  await pool.getConnection();
+    const result = await pool.query('SELECT * FROM sono');
     res.json(result[0]);
-    client.release();
+    connection.release();
   } catch (err) {
     console.error(err);
     res.send("Erro " + err);
