@@ -7,7 +7,7 @@ app.use(express.json());
 const port = 3000;
 
 const pool = require ("./database");
-const { Pool } = require('mysql2/typings/mysql/lib/Pool');
+const { Pool } = require('mysql2');
 
 const pool2 = new Pool({
   connectionString: process.env.DATABASE_URL,
