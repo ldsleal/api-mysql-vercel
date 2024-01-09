@@ -3,12 +3,11 @@ const mysql = require('mysql2');
 const { Pool }= require ('mysql2');
 
 const express = require('express');
-const { Pool } = require('mysql2/typings/mysql/lib/Pool');
 const app = express();
 app.use(express.json());
 const port = 3000;
 
-const pool = new Pool ({
+const pool = new  Pool ({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
