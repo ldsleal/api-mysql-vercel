@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 const port = 3000;
 
-const pool = require ('./database')
+const pool = require("./database")
 
 app.listen(port, () => {
     console.log(`Servidor rodando n porta ${port}`);
