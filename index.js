@@ -111,24 +111,6 @@ app.get('/sono', async (req, res) => {
 
 
 
-// Endpoint para criar um novo USUAR
-app.post('/usuar', async (req, res) => {
-  try {
-      const { nome, email } = req.body;
-      
-      // Insere dados na tabela usuar
-      const result = await pool.query(
-          'INSERT INTO usuar (nome, email) VALUES ($1, $2) RETURNING *', 
-          [nome, email]
-      );
-
-      res.status(201).json(result.rows[0]);
-  } catch (error) {
-      console.error('Erro ao inserir no banco de dados', error);
-      res.status(500).send('Erro interno do servidor');
-  }
-});
-
 // Endpoint para criar um novo batimento
 app.post('/batimentos_cardiacos', async (req, res) => {
   try {
