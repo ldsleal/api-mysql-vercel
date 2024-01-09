@@ -114,20 +114,31 @@ app.get('/sono', async (req, res) => {
 // Endpoint para criar um novo batimento
 app.post('/batimentos_cardiacos', async (req, res) => {
   try {
-      const {id_pessoa, valor, dia, horario} = req.body;
-      
-      // Insere dados na tabela batimentos_cardiacos
-      const result = await pool.query(
-          'INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)', 
-          [id_pessoa, valor, dia, horario]
-      );
+    const { id_pessoa, valor, dia, horario } = req.body;
 
-      res.status(201).json(result[0]);
+    // Verifica se os dados obrigatórios estão presentes na requisição
+    if (!id_pessoa || !valor || !dia || !horario) {
+      return res.status(400).json({ error: 'Parâmetros incompletos na requisição' });
+    }
+
+    // Insere dados na tabela batimentos_cardiacos
+    const result = await pool.query(
+      'INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)',
+      [id_pessoa, valor, dia, horario]
+    );
+
+    res.status(201).json(result[0]);
   } catch (error) {
-      console.error('Erro ao inserir no banco de dados', error);
-      res.status(500).send('Erro interno do servidor');
+    console.error('Erro ao inserir no banco de dados', error);
+
+    // Retorna uma resposta detalhada em caso de erro interno
+    res.status(500).json({
+      error: 'Erro interno do servidor',
+      details: error.message,
+    });
   }
 });
+
 
 // Endpoint para criar um novos sono
 app.post('/distancia', async (req, res) => {
