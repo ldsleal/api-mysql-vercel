@@ -1,18 +1,12 @@
 require('dotenv').config();
 const mysql = require('mysql2');
-const { Pool }= require ('mysql2');
 
 const express = require('express');
 const app = express();
 app.use(express.json());
 const port = 3000;
 
-const pool = new  Pool ({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+const pool = require ('./database')
 
 app.listen(port, () => {
     console.log(`Servidor rodando n porta ${port}`);
