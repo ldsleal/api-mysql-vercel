@@ -112,6 +112,7 @@ app.get('/sono', async (req, res) => {
 
 
 // Endpoint para criar um novo batimento
+
 app.post('/batimentos_cardiacos', async (req, res) => {
   try {
     const { id_pessoa, valor, dia, horario } = req.body;
@@ -122,20 +123,21 @@ app.post('/batimentos_cardiacos', async (req, res) => {
     }
 
     // Insere dados na tabela batimentos_cardiacos
-    const result = await pool.query(
-      'INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)',
-      [id_pessoa, valor, dia, horario]
-    );
+    const connection = await pool.getConnection();
+    try {
+      const result = await connection.query(
+        'INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)',
+        [id_pessoa, valor, dia, horario]
+      );
 
-    res.status(201).json(result[0]);
+      // Retorna os dados recém-inseridos
+      res.status(201).json(result[0]);
+    } finally {
+      connection.release();
+    }
   } catch (error) {
     console.error('Erro ao inserir no banco de dados', error);
-
-    // Retorna uma resposta detalhada em caso de erro interno
-    res.status(500).json({
-      error: 'Erro interno do servidor',
-      details: error.message,
-    });
+    res.status(500).json({ error: 'Erro interno do servidor', details: error.message });
   }
 });
 
