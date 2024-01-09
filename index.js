@@ -157,7 +157,7 @@ app.post('/distancia', async (req, res) => {
           [id_pessoa, valor, dia, horario]
       );
 
-      res.status(201).json(result.rows[0]);
+      res.status(201).json(result[0]);
   } catch (error) {
       console.error('Erro ao inserir no banco de dados', error);
       res.status(500).send('Erro interno do servidor');
