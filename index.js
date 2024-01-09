@@ -9,7 +9,7 @@ const port = 3000;
 const pool = require ("./database");
 const { Pool } = require('mysql2/typings/mysql/lib/Pool');
 
-const pool = new Pool({
+const pool2 = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
