@@ -118,7 +118,7 @@ app.post('/batimentos_cardiacos', async (req, res) => {
       
       // Insere dados na tabela batimentos_cardiacos
       const result = await pool.query(
-          'INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?) RETURNING *', 
+          'INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)', 
           [id_pessoa, valor, dia, horario]
       );
 
