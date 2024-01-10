@@ -37,6 +37,10 @@ app.get('/batimentos_cardiacos', async (req, res) => {
   }
 });
 
+
+
+
+
 app.get('/passos', async (req, res) => {
   try {
     const connection =  await pool.getConnection();
@@ -115,32 +119,21 @@ app.get('/sono', async (req, res) => {
 
 app.post('/batimentos_cardiacos', async (req, res) => {
   try {
-    const { id_pessoa, valor, dia, horario } = req.body;
+    const { id_pessoa, valor, dia, horario } = req.body; // Substitua pelos nomes reais dos campos
 
-    // Verifica se os dados obrigatórios estão presentes na requisição
-    if (!id_pessoa || !valor || !dia || !horario) {
-      return res.status(400).json({ error: 'Parâmetros incompletos na requisição' });
-    }
-
-    // Insere dados na tabela batimentos_cardiacos
     const connection = await pool.getConnection();
-    try {
-      const result = await connection.query(
-        'INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)',
-        [id_pessoa, valor, dia, horario]
-      );
+    
+    // Substitua os campos e valores de acordo com sua tabela
+    const result = await pool.query('INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?)', [id_pessoa, valor, dia, horario]);
 
-      // Retorna os dados recém-inseridos
-      res.status(201).json(result[0]);
-    } finally {
-      connection.release();
-    }
-  } catch (error) {
-    console.error('Erro ao inserir no banco de dados', error);
-    res.status(500).json({ error: 'Erro interno do servidor', details: error.message });
+    res.json({ mensagem: 'Inserido com sucesso!' });
+    
+    connection.release();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ erro: 'Erro ao inserir dados' });
   }
 });
-
 
 // Endpoint para criar um novos sono
 app.post('/distancia', async (req, res) => {
