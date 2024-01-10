@@ -37,10 +37,6 @@ app.get('/batimentos_cardiacos', async (req, res) => {
   }
 });
 
-
-
-
-
 app.get('/passos', async (req, res) => {
   try {
     const connection =  await pool.getConnection();
@@ -115,25 +111,24 @@ app.get('/sono', async (req, res) => {
 
 
 
-// Endpoint para criar um novo batimento
-
+// Endpoint para criar um novos sono
 app.post('/batimentos_cardiacos', async (req, res) => {
   try {
-    const { id_pessoa, valor, dia, horario } = req.body; // Substitua pelos nomes reais dos campos
+      const {id_pessoa, valor, dia, horario} = req.body;
+      
+      // Insere dados na tabela sono
+      const result = await pool.query(
+          'INSERT INTO public.distancia (id_pessoa, valor, dia, horario) VALUES ($1, $2, $3, $4) RETURNING *', 
+          [id_pessoa, valor, dia, horario]
+      );
 
-    const connection = await pool.getConnection();
-    
-    // Substitua os campos e valores de acordo com sua tabela
-    const result = await pool.query('INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?)', [id_pessoa, valor, dia, horario]);
-
-    res.json({ mensagem: 'Inserido com sucesso!' });
-    
-    connection.release();
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ erro: 'Erro ao inserir dados' });
+      res.status(201).json(result[0]);
+  } catch (error) {
+      console.error('Erro ao inserir no banco de dados', error);
+      res.status(500).send('Erro interno do servidor');
   }
 });
+
 
 // Endpoint para criar um novos sono
 app.post('/distancia', async (req, res) => {
