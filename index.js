@@ -118,7 +118,7 @@ app.post('/batimentos_cardiacos', async (req, res) => {
       
       // Insere dados na tabela sono
       const result = await pool.query(
-          'INSERT INTO public.distancia (id_pessoa, valor, dia, horario) VALUES ($1, $2, $3, $4) RETURNING *', 
+          'INSERT INTO batimentos_cardiacos (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)', 
           [id_pessoa, valor, dia, horario]
       );
 
@@ -155,7 +155,7 @@ app.post('/passos', async (req, res) => {
       
       // Insere dados na tabela batimentos_cardiacos
       const result = await pool.query(
-          'INSERT INTO public.passos (id_pessoa, valor, dia) VALUES ($1, $2, $3) RETURNING *', 
+          'INSERT INTO passos (id_pessoa, valor, dia) VALUES (?, ?, ?)', 
           [id_pessoa, valor, dia]
       );
 
