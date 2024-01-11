@@ -137,7 +137,7 @@ app.post('/distancia', async (req, res) => {
       
       // Insere dados na tabela sono
       const result = await pool.query(
-          'INSERT INTO public.distancia (id_pessoa, valor, dia, horario) VALUES ($1, $2, $3, $4) RETURNING *', 
+          'INSERT INTO distancia (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)', 
           [id_pessoa, valor, dia, horario]
       );
 
@@ -173,11 +173,11 @@ app.post('/respiracao', async (req, res) => {
       
       // Insere dados na tabela batimentos_cardiacos
       const result = await pool.query(
-          'INSERT INTO public.respiracao (id_pessoa, valor, dia, horario) VALUES ($1, $2, $3, $4) RETURNING *', 
+          'INSERT INTO respiracao (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)', 
           [id_pessoa, valor, dia, horario]
       );
 
-      res.status(201).json(result.rows[0]);
+      res.status(201).json(result[0]);
   } catch (error) {
       console.error('Erro ao inserir no banco de dados', error);
       res.status(500).send('Erro interno do servidor');
@@ -191,11 +191,11 @@ app.post('/oxigenacao', async (req, res) => {
       
       // Insere dados na tabela batimentos_cardiacos
       const result = await pool.query(
-          'INSERT INTO public.oxigenacao (id_pessoa, valor, dia, horario) VALUES ($1, $2, $3, $4) RETURNING *', 
+          'INSERT INTO oxigenacao (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?)', 
           [id_pessoa, valor, dia, horario]
       );
 
-      res.status(201).json(result.rows[0]);
+      res.status(201).json(result[0]);
   } catch (error) {
       console.error('Erro ao inserir no banco de dados', error);
       res.status(500).send('Erro interno do servidor');
@@ -209,11 +209,11 @@ app.post('/peso', async (req, res) => {
       
       // Insere dados na tabela peso
       const result = await pool.query(
-          'INSERT INTO public.peso (id_pessoa, valor, dia, horario) VALUES ($1, $2, $3, $4) RETURNING *', 
+          'INSERT INTO peso (id_pessoa, valor, dia, horario) VALUES (?, ?, ?, ?) ', 
           [id_pessoa, valor, dia, horario]
       );
 
-      res.status(201).json(result.rows[0]);
+      res.status(201).json(result[0]);
   } catch (error) {
       console.error('Erro ao inserir no banco de dados', error);
       res.status(500).send('Erro interno do servidor');
@@ -227,11 +227,11 @@ app.post('/sono', async (req, res) => {
       
       // Insere dados na tabela sono
       const result = await pool.query(
-          'INSERT INTO public.sono (id_pessoa, duracao, start_date, end_date, start_time , end_time) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', 
+          'INSERT INTO sono (id_pessoa, duracao, start_date, end_date, start_time , end_time) VALUES (?, ?, ?, ?, ?, ?)', 
           [id_pessoa, duracao, start_date, end_date, start_time, end_time]
       );
 
-      res.status(201).json(result.rows[0]);
+      res.status(201).json(result[0]);
   } catch (error) {
       console.error('Erro ao inserir no banco de dados', error);
       res.status(500).send('Erro interno do servidor');
