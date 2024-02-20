@@ -8,7 +8,7 @@ const pool = mysql.createPool({
  waitForConnections:true,
  connectionLimit:500,
  queueLimit:0,
- port: 51232
+ port: 42847
 })
 
 pool.getConnection((err,conn) => {
