@@ -115,7 +115,7 @@ app.post('/pessoa', async (req, res) => {
       const { username, password } = req.body; // Recebendo os dados de login do corpo da solicitação
       
       const connection = await pool.getConnection();
-      const [rows] = await pool.query('SELECT * FROM usuarios WHERE username = ? AND password = ?', [username, password]); // Consulta para verificar as credenciais
+      const [rows] = await pool.query('SELECT * FROM pessoa WHERE username = ? AND password = ?', [username, password]); // Consulta para verificar as credenciais
       
       if (rows.length > 0) {
           res.status(200).json({ message: "Login bem-sucedido" }); // Retornando uma resposta indicando que o login foi bem-sucedido
