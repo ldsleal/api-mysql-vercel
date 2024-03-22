@@ -12,6 +12,12 @@ app.listen(port, () => {
     console.log(`Servidor rodando n porta ${port}`);
   });
 
+app.get('/', (req, res) => {
+
+    res.send('Your Express API is up and running!');
+    
+});
+
   // Exemplo de rota para consultar dados
 app.get('/pessoa', async (req, res) => {
     try {
@@ -258,3 +264,4 @@ app.post('/sono', async (req, res) => {
       res.status(500).send('Erro interno do servidor');
   }
 });
+
