@@ -118,11 +118,11 @@ app.get('/sono', async (req, res) => {
 // Exemplo de rota para autenticação de login
 app.post('/pessoa', async (req, res) => {
   try {
-      const {name, username, password ,cpf,nascimento} = req.body; // Recebendo os dados de login do corpo da solicitação
+      const {nome, username, password ,cpf,nascimento} = req.body; // Recebendo os dados de login do corpo da solicitação
       
       const connection = await pool.getConnection();
       const [rows] = await pool.query('SELECT * FROM pessoa WHERE  username = ? AND password = ? ',  [username, password]); // Consulta para verificar as credenciais
-      const result = await pool.query('INSERT INTO pessoa (name, username, password ,cpf,nascimento) VALUES (?, ?, ?, ?,?)', [name, username, password ,cpf,nascimento]);
+      const result = await pool.query('INSERT INTO pessoa (nome, username, password ,cpf,nascimento) VALUES (?, ?, ?, ?,?)', [nome, username, password ,cpf,nascimento]);
       
         res.status(201).json(result[0]);
       if (rows.length > 0) {
@@ -137,6 +137,24 @@ app.post('/pessoa', async (req, res) => {
       res.status(500).send("Erro " + err);
   }
 });
+
+// Endpoint para criar um novos sono
+/*app.post('/pessoa', async (req, res) => {
+  try {
+      const {nome, username, password ,cpf,nascimento} = req.body;
+      
+      // Insere dados na tabela sono
+      const result = await pool.query(
+          'INSERT INTO pessoa (nome, username, password ,cpf,nascimento) VALUES (?, ?, ?, ?,?)', 
+          [nome, username, password ,cpf,nascimento]
+      );
+
+      res.status(201).json(result[0]);
+  } catch (error) {
+      console.error('Erro ao inserir no banco de dados', error);
+      res.status(500).send('Erro interno do servidor');
+  }
+});*/
 
 // Endpoint para criar um novos sono
 app.post('/batimentos_cardiacos', async (req, res) => {
