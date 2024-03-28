@@ -118,10 +118,10 @@ app.get('/sono', async (req, res) => {
 // Exemplo de rota para autenticação de login
 app.post('/pessoa', async (req, res) => {
   try {
-      const { id_pessoa, username, password } = req.body; // Recebendo os dados de login do corpo da solicitação
+      const { id_pessoa,name, username, password ,cpf,nascimento} = req.body; // Recebendo os dados de login do corpo da solicitação
       
       const connection = await pool.getConnection();
-      const [rows] = await pool.query('SELECT * FROM pessoa WHERE username = ? AND password = ?', [username, password, id_pessoa]); // Consulta para verificar as credenciais
+      const [rows] = await pool.query('SELECT * FROM pessoa WHERE name=? , username = ? , password = ? ,cpf=?, nascimento=?', [id_pessoa,name, username, password ,cpf,nascimento]); // Consulta para verificar as credenciais
       
       if (rows.length > 0) {
           res.status(200).json({ message: "Login bem-sucedido" }); // Retornando uma resposta indicando que o login foi bem-sucedido
