@@ -116,7 +116,7 @@ app.get('/sono', async (req, res) => {
 });
 
 // Exemplo de rota para autenticação de login
-app.post('/pessoa', async (req, res) => {
+/*app.post('/pessoa', async (req, res) => {
   try {
       const {nome, username, password ,cpf,nascimento} = req.body; // Recebendo os dados de login do corpo da solicitação
       
@@ -136,10 +136,10 @@ app.post('/pessoa', async (req, res) => {
       console.error(err);
       res.status(500).send("Erro " + err);
   }
-});
+});*/
 
 // Endpoint para criar um novos sono
-/*app.post('/pessoa', async (req, res) => {
+app.post('/pessoa', async (req, res) => {
   try {
       const {nome, username, password ,cpf,nascimento} = req.body;
       
@@ -154,7 +154,7 @@ app.post('/pessoa', async (req, res) => {
       console.error('Erro ao inserir no banco de dados', error);
       res.status(500).send('Erro interno do servidor');
   }
-});*/
+});
 
 // Endpoint para criar um novos sono
 app.post('/batimentos_cardiacos', async (req, res) => {
