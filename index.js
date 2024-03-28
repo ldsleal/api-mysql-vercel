@@ -115,31 +115,42 @@ app.get('/sono', async (req, res) => {
   }
 });
 
-// Exemplo de rota para autenticação de login
-/*app.post('/pessoa', async (req, res) => {
+// Rota para autenticação de login e cadastro de usuário
+app.post('/pessoa', async (req, res) => {
   try {
-      const {nome, username, password ,cpf,nascimento} = req.body; // Recebendo os dados de login do corpo da solicitação
+      const { nome, username, password, cpf, nascimento } = req.body; // Recebendo os dados do corpo da solicitação
       
-      const connection = await pool.getConnection();
-      const [rows] = await pool.query('SELECT * FROM pessoa WHERE  username = ? AND password = ? ',  [username, password]); // Consulta para verificar as credenciais
-      const result = await pool.query('INSERT INTO pessoa (nome, username, password ,cpf,nascimento) VALUES (?, ?, ?, ?,?)', [nome, username, password ,cpf,nascimento]);
+      // Verificando se o usuário já existe
+      const [existingUser] = await pool.query('SELECT * FROM pessoa WHERE username = ?', [username]);
       
-        res.status(201).json(result[0]);
-      if (rows.length > 0) {
-          res.status(200).json({ message: "Login bem-sucedido" }); // Retornando uma resposta indicando que o login foi bem-sucedido
-      } else {
-          res.status(401).json({ message: "Credenciais inválidas" }); // Retornando uma resposta indicando que as credenciais são inválidas
+      if (existingUser.length > 0) {
+          res.status(400).json({ message: "O usuário já existe" });
+          return;
       }
-      
-      connection.release(); // Liberando a conexão de volta para o pool
+
+      // Criando um novo usuário
+      const result = await pool.query(
+          'INSERT INTO pessoa (nome, username, password, cpf, nascimento) VALUES (?, ?, ?, ?, ?)',
+          [nome, username, password, cpf, nascimento]
+      );
+
+      // Realizando a autenticação do usuário
+      const [authenticatedUser] = await pool.query('SELECT * FROM pessoa WHERE username = ? AND password = ?', [username, password]);
+
+      if (authenticatedUser.length > 0) {
+          res.status(200).json({ message: "Login bem-sucedido", user: authenticatedUser });
+      } else {
+          res.status(401).json({ message: "Credenciais inválidas" });
+      }
   } catch (err) {
       console.error(err);
       res.status(500).send("Erro " + err);
   }
-});*/
+});
+
 
 // Endpoint para criar um novos sono
-app.post('/pessoa', async (req, res) => {
+/*app.post('/pessoa', async (req, res) => {
   try {
       const {nome, username, password ,cpf,nascimento} = req.body;
       
@@ -154,7 +165,7 @@ app.post('/pessoa', async (req, res) => {
       console.error('Erro ao inserir no banco de dados', error);
       res.status(500).send('Erro interno do servidor');
   }
-});
+});*/
 
 // Endpoint para criar um novos sono
 app.post('/batimentos_cardiacos', async (req, res) => {
