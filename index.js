@@ -118,11 +118,13 @@ app.get('/sono', async (req, res) => {
 // Exemplo de rota para autenticação de login
 app.post('/pessoa', async (req, res) => {
   try {
-      const { id_pessoa,name, username, password ,cpf,nascimento} = req.body; // Recebendo os dados de login do corpo da solicitação
+      const {name, username, password ,cpf,nascimento} = req.body; // Recebendo os dados de login do corpo da solicitação
       
       const connection = await pool.getConnection();
-      const [rows] = await pool.query('SELECT * FROM pessoa WHERE name=? , username = ? , password = ? ,cpf=?, nascimento=?', [id_pessoa,name, username, password ,cpf,nascimento]); // Consulta para verificar as credenciais
+      const [rows] = await pool.query('SELECT * FROM pessoa WHERE  username = ? AND password = ? ',  [username, password]); // Consulta para verificar as credenciais
+      const result = await pool.query('INSERT INTO pessoa (name, username, password ,cpf,nascimento) VALUES (?, ?, ?, ?,?)', [name, username, password ,cpf,nascimento]);
       
+        res.status(201).json(result[0]);
       if (rows.length > 0) {
           res.status(200).json({ message: "Login bem-sucedido" }); // Retornando uma resposta indicando que o login foi bem-sucedido
       } else {
@@ -135,8 +137,6 @@ app.post('/pessoa', async (req, res) => {
       res.status(500).send("Erro " + err);
   }
 });
-
-
 
 // Endpoint para criar um novos sono
 app.post('/batimentos_cardiacos', async (req, res) => {
