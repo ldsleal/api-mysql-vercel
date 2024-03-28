@@ -123,10 +123,6 @@ app.post('/pessoa', async (req, res) => {
       // Verificando se o usuário já existe
       const [existingUser] = await pool.query('SELECT * FROM pessoa WHERE username = ?', [username]);
       
-      if (existingUser.length > 0) {
-          res.status(400).json({ message: "O usuário já existe" });
-          return;
-      }
 
       // Criando um novo usuário
       const result = await pool.query(
