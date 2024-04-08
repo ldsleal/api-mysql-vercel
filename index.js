@@ -138,17 +138,28 @@ app.post('/login', async (req, res) => {
 });
 
 
-// Endpoint para criar um novos sono
 app.post('/cadastro', async (req, res) => {
   try {
-      const {nome, username, password ,cpf,nascimento} = req.body;
+      const { nome, username, password, cpf, nascimento } = req.body;
       
-      // Insere dados na tabela sono
-      const result = await pool.query(
-          'INSERT INTO pessoa (nome, username, password ,cpf,nascimento) VALUES (?, ?, ?, ?,?)', 
-          [nome, username, password ,cpf,nascimento]
+      // Primeiro, verificar se o usuário já existe
+      const userExists = await pool.query(
+          'SELECT * FROM pessoa WHERE username = ?', 
+          [username]
       );
 
+      // Se userExists retornar algum resultado, significa que o usuário já existe
+      if (userExists[0].length > 0) {
+          return res.status(409).send('Usuário já existe'); // Código 409 indica conflito
+      }
+      
+      // Caso contrário, insere os dados na tabela pessoa
+      const result = await pool.query(
+          'INSERT INTO pessoa (nome, username, password, cpf, nascimento) VALUES (?, ?, ?, ?, ?)', 
+          [nome, username, password, cpf, nascimento]
+      );
+
+      // Retorna o resultado da inserção, tipicamente o novo usuário inserido
       res.status(201).json(result[0]);
   } catch (error) {
       console.error('Erro ao inserir no banco de dados', error);
