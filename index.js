@@ -142,14 +142,14 @@ app.post('/cadastro', async (req, res) => {
   try {
     const { nome, username, password, nascimento } = req.body;
 
-    // Primeiro, verifica se o username ou cpf já existe na tabela pessoa
+    // Primeiro, verifica se o username já existe na tabela pessoa
     const checkUser = await pool.query(
       'SELECT * FROM pessoa WHERE username = ?',
       [username]
     );
 
-    // Se já existir um usuário com o mesmo username ou cpf, retorna um erro
-    if (checkUser[0].length > 0) {
+    // Reforça a verificação de existência do usuário
+    if (Array.isArray(checkUser[0]) && checkUser[0].length > 0) {
       return res.status(409).send('Usuário já existe.');
     }
 
@@ -165,6 +165,7 @@ app.post('/cadastro', async (req, res) => {
     res.status(500).send('Erro interno do servidor');
   }
 });
+
 
 // Endpoint para criar um novos sono
 app.post('/batimentos_cardiacos', async (req, res) => {
