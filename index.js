@@ -152,12 +152,13 @@ app.post('/cadastro', async (req, res) => {
       if (userExists[0].length > 0) {
           return res.status(409).send('Usuário já existe'); // Código 409 indica conflito
       }
-      
+      else{
       // Caso contrário, insere os dados na tabela pessoa
-      const result = await pool.query(
-          'INSERT INTO pessoa (nome, username, password, cpf, nascimento) VALUES (?, ?, ?, ?, ?)', 
-          [nome, username, password, cpf, nascimento]
-      );
+        const result = await pool.query(
+            'INSERT INTO pessoa (nome, username, password, cpf, nascimento) VALUES (?, ?, ?, ?, ?)', 
+            [nome, username, password, cpf, nascimento]
+        );
+      }
 
       // Retorna o resultado da inserção, tipicamente o novo usuário inserido
       res.status(201).json(result[0]);
