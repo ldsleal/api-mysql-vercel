@@ -140,12 +140,12 @@ app.post('/login', async (req, res) => {
 
 app.post('/cadastro', async (req, res) => {
   try {
-    const { nome, username, password, cpf, nascimento } = req.body;
+    const { nome, username, password, nascimento } = req.body;
 
     // Primeiro, verifica se o username ou cpf já existe na tabela pessoa
     const checkUser = await pool.query(
-      'SELECT * FROM pessoa WHERE username = ? OR cpf = ?',
-      [username, cpf]
+      'SELECT * FROM pessoa WHERE username = ?',
+      [username]
     );
 
     // Se já existir um usuário com o mesmo username ou cpf, retorna um erro
@@ -155,8 +155,8 @@ app.post('/cadastro', async (req, res) => {
 
     // Insere os dados na tabela pessoa se não houver conflito
     const result = await pool.query(
-      'INSERT INTO pessoa (nome, username, password, cpf, nascimento) VALUES (?, ?, ?, ?, ?)',
-      [nome, username, password, cpf, nascimento]
+      'INSERT INTO pessoa (nome, username, password, nascimento) VALUES (?, ?, ?, ?)',
+      [nome, username, password, nascimento]
     );
 
     res.status(201).json(result[0]);
