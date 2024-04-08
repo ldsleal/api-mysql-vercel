@@ -138,36 +138,31 @@ app.post('/login', async (req, res) => {
 });
 
 
-async function usuarioExiste(username, cpf) {
-  const [rows] = await pool.query('SELECT 1 FROM pessoa WHERE username = ? ', [username]);
-  return rows.length > 0;
-}
-
-// Função auxiliar para inserir o usuário
-async function inserirUsuario(nome, username, password, cpf, nascimento) {
-  const result = await pool.query(
-      'INSERT INTO pessoa (nome, username, password, cpf, nascimento) VALUES (?, ?, ?, ?, ?)', 
-      [nome, username, password, cpf, nascimento]
-  );
-  return result[0];
-}
-
-// Endpoint para cadastro
 app.post('/cadastro', async (req, res) => {
   try {
-      const { nome, username, password, cpf, nascimento } = req.body;
+    const { nome, username, password, cpf, nascimento } = req.body;
 
-      // Verifica se o usuário já existe
-      if (await usuarioExiste(username, cpf)) {
-          return res.status(409).send('Usuário já existe'); // Conflito
-      }
+    // Primeiro, verifica se o username ou cpf já existe na tabela pessoa
+    const checkUser = await pool.query(
+      'SELECT * FROM pessoa WHERE username = ? OR cpf = ?',
+      [username, cpf]
+    );
 
-      // Insere o novo usuário
-      const novoUsuario = await inserirUsuario(nome, username, password, cpf, nascimento);
-      res.status(201).json(novoUsuario);
+    // Se já existir um usuário com o mesmo username ou cpf, retorna um erro
+    if (checkUser[0].length > 0) {
+      return res.status(409).send('Usuário já existe.');
+    }
+
+    // Insere os dados na tabela pessoa se não houver conflito
+    const result = await pool.query(
+      'INSERT INTO pessoa (nome, username, password, cpf, nascimento) VALUES (?, ?, ?, ?, ?)',
+      [nome, username, password, cpf, nascimento]
+    );
+
+    res.status(201).json(result[0]);
   } catch (error) {
-      console.error('Erro ao processar cadastro', error);
-      res.status(500).send('Erro interno do servidor');
+    console.error('Erro ao inserir no banco de dados', error);
+    res.status(500).send('Erro interno do servidor');
   }
 });
 
