@@ -119,7 +119,7 @@ app.get('/sono', async (req, res) => {
 // Exemplo de rota para autenticação de login
 app.post('/login', async (req, res) => {
   try {
-      const {username, password} = req.body; // Recebendo os dados de login do corpo da solicitação
+      const {username, password,id_pessoa} = req.body; // Recebendo os dados de login do corpo da solicitação
       
       const connection = await pool.getConnection();
       const [rows] = await pool.query('SELECT * FROM pessoa WHERE  username = ? AND password = ? ',  [username, password]); // Consulta para verificar as credenciais
