@@ -116,16 +116,16 @@ app.get('/sono', async (req, res) => {
 });
 
 
-// Exemplo de rota para autenticação de login
 app.post('/login', async (req, res) => {
   try {
-      const {username, password,id_pessoa} = req.body; // Recebendo os dados de login do corpo da solicitação
+      const {username, password} = req.body; // Recebendo os dados de login do corpo da solicitação
       
       const connection = await pool.getConnection();
       const [rows] = await pool.query('SELECT * FROM pessoa WHERE  username = ? AND password = ? ',  [username, password]); // Consulta para verificar as credenciais
 
       if (rows.length > 0) {
-          res.status(200).json({ message: "Login bem-sucedido" }); // Retornando uma resposta indicando que o login foi bem-sucedido
+          const id_pessoa = rows[0].id_pessoa; // Capturando o id_pessoa do primeiro usuário retornado
+          res.status(200).json({ id_pessoa, message: "Login bem-sucedido" }); // Retornando o id_pessoa na resposta
       } else {
           res.status(401).json({ message: "Credenciais inválidas" }); // Retornando uma resposta indicando que as credenciais são inválidas
       }
