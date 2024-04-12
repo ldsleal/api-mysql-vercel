@@ -43,6 +43,7 @@ app.get('/batimentos_cardiacos', async (req, res) => {
   }
 });
 
+//captura passos
 app.get('/passos', async (req, res) => {
   try {
     const connection =  await pool.getConnection();
